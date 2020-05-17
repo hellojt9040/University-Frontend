@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { map, buffer } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-const BACKEND_URL = environment.apiURL + "/posts/"
+const BACKEND_URL = environment.apiURL + "posts/"
 
 @Injectable({
   providedIn: 'root'
@@ -72,7 +72,6 @@ export class PostsService {
 
     this.http.post<{message:string}>(BACKEND_URL, post)
       .subscribe((response) => {
-        console.log('message', response.message)
         if(!post.media)
           post.media = undefined
 
@@ -87,7 +86,6 @@ export class PostsService {
   editPost(post){
     this.http.patch<{message:string}>(BACKEND_URL + post.id, post)
       .subscribe((response) => {
-        console.log(response.message)
         this.postUpdated.next({posts:[...this.posts]})
         console.log(`Post id: ${post.id} updated ${response.message}`)
         setTimeout(() => {

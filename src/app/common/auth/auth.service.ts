@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
-const BACKEND_URL = environment.apiURL + "/user/"
+const BACKEND_URL = environment.apiURL + "user/"
 
 @Injectable({
   providedIn: 'root'
@@ -37,8 +37,6 @@ export class AuthService {
   signUp(newUser: FormData){
     this.http.post(BACKEND_URL + "newUser", newUser)
       .subscribe((response) => {
-        console.log(response,'response')
-
         const token = response['token']
         this._token = token
         if(token){
@@ -57,11 +55,8 @@ export class AuthService {
 
   //login user
   login(user){
-    console.log(user);
-
     this.http.post(BACKEND_URL + "login", user)
       .subscribe((response) => {
-        console.log(response,'response')
         const token = response['token']
         this._token = token
         if(token){
@@ -72,7 +67,6 @@ export class AuthService {
 
           const now = new Date()
           const expirationDate = new Date(now.getTime() + this.AUTH_EXPIRING_TiME*1000)
-          console.log(expirationDate);
 
           this.saveAuthData(token, expirationDate)
           this.router.navigate(["/"])
@@ -102,7 +96,6 @@ export class AuthService {
   logout(){
     this.http.post(BACKEND_URL + "logout", null)
       .subscribe((response) => {
-        console.log(response);
         this._token = null
         this.isAuthenticated = false
         this._authStatusListener.next(false)

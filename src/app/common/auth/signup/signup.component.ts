@@ -54,9 +54,6 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   onSignup(signupForm:FormGroup){
-    /* if(signupForm.invalid)
-      return null */
-    console.log(signupForm);
     if(signupForm.invalid)
       return
 

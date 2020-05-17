@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
-const BACKEND_URL = environment.apiURL + "/aboutUs"
+const BACKEND_URL = environment.apiURL + "aboutUs"
 
 @Injectable({
   providedIn: 'root'
