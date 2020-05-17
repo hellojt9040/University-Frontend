@@ -1,6 +1,7 @@
 {
   "name": "mean-project",
   "version": "0.0.0",
+  "homepage": "http://hellojt9040.github.io/MEAN-Project-FrontEnd",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
