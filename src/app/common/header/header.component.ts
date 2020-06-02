@@ -25,10 +25,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       })
 
     this.userIsFaculty = this.authService.getIsFaculty()
+    console.log(this.userIsFaculty);
+
     this.isFacultyListenerSubs = this.authService
       .getIsFacultyStatusListener()
       .subscribe((isFaculty) => {
         this.userIsFaculty = isFaculty
+        console.log(this.userIsFaculty);
+
       })
   }
 

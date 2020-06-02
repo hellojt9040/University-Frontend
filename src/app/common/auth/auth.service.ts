@@ -129,6 +129,7 @@ export class AuthService {
 
       this.http.post(BACKEND_URL + "logout", null)
       .subscribe((response) => {
+        this._isFacultyStatusListener.next(false)
         this._token = null
         this.isAuthenticated = false
         this._authStatusListener.next(false)

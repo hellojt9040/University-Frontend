@@ -56,11 +56,11 @@ export class ResUploadComponent implements OnInit {
     this.resultListenerSubs = this.userService
       .getResultUpdated()
       .subscribe((resultData) => {
-        if(resultData){
+        if(resultData['resultDataArray'].length){
           this.isResultAvailable = true
           this.resultAvailable(true)
         }
-        this.isResultAvailable = false
+        //this.isResultAvailable = false
 
         const resultDataArray = resultData['resultDataArray']
 
