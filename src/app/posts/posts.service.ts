@@ -1,7 +1,7 @@
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Post } from './post.model';
-import { Subject } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, buffer } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -24,6 +24,8 @@ export class PostsService {
   }
 
 
+
+
   // GET request
   getPosts(postPerPage: number = 5 , currentPage: number = 1){
     const queryURL = `?pagesize=${postPerPage}&currentpage=${currentPage}`
@@ -36,19 +38,24 @@ export class PostsService {
             id:post._id,
             title:post.title,
             description:post.description,
-            media:post.media? BACKEND_URL + post._id +"/media":undefined,
-            owner:post.owner
+            media:post.media,
+            owner:post.owner,
+            updatedAt: this.refactorUpadetedTime(post.updatedAt)
           }
         }),totalPostsLength: postData.totalPostsLength}
       }))
       .subscribe((transformedPost) => {
-        this.posts = [...transformedPost.posts]
+        this.posts = [...transformedPost.posts].reverse()
+
         this.postUpdated.next({posts:[...this.posts], postCount:transformedPost.totalPostsLength})
       },(error) => {
         console.error(error)
       })
 
   }
+
+  // GET post owner profile picture
+  //postOwnerProfilePicture()
 
   //get a particular post
   getPost(id) {
@@ -67,17 +74,17 @@ export class PostsService {
   }
 
   //POST request
-  addPost(title:string, description:string, media?:string) {
-    let post:Post = { id:'', title, description, media }
+  addPost(title:string, description:string, media?:File) {
+    //let post:Post = { id:'', title, description, media }
 
-    this.http.post<{message:string}>(BACKEND_URL, post)
+    const newPost = new FormData()
+    newPost.append('title', title)
+    newPost.append('description', description)
+    if(media)
+      newPost.append('media', media, title)
+
+    this.http.post<{message:string,createdPost}>(BACKEND_URL, newPost)
       .subscribe((response) => {
-        if(!post.media)
-          post.media = undefined
-
-        this.posts.push(post)
-
-        this.postUpdated.next({posts:[...this.posts]})
         this.router.navigate(["/"])
       })
   }
@@ -102,21 +109,16 @@ export class PostsService {
     let doDelete = confirm("Post will be deleted permanently !!");
 
     if(!doDelete)
-      return false
+      return throwError(false)
 
-    this.http.delete<{success:string}>(BACKEND_URL + id)
-      .subscribe((response) => {
-        for(let post of this.posts) {
-          if(id===post.id){
-            let index = this.posts.indexOf(post)
-            this.posts.splice(index,1)
-            this.postUpdated.next({posts:[...this.posts]})
-            console.log(`Post id: ${id} deleted ${response.success}`)
-          }
-        }
-      },(error) => {
-        console.log(error.message)
-      })
+    return this.http.delete<{success:string}>(BACKEND_URL + id)
+  }
+
+  refactorUpadetedTime(updatedTime){
+    updatedTime = (updatedTime as string).split('-')
+    updatedTime[2]= updatedTime[2].substring(0, 2)
+    updatedTime=updatedTime.join('-')
+    return updatedTime
   }
 
 }

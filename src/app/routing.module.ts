@@ -8,13 +8,16 @@ import { NotFoundComponent } from './common/not-found/not-found.component';
 import { EditPostComponent } from './posts/edit-post/edit-post.component';
 import { LoginComponent } from './common/auth/login/login.component';
 import { SignupComponent } from './common/auth/signup/signup.component';
+import { ResUploadComponent } from './users/res-upload/res-upload.component';
 import { AuthGuard } from './common/auth/auth.guard';
+
 
 const routes: Routes = [
   {path: '' , redirectTo: 'posts',pathMatch: 'full', canActivate:[AuthGuard]},
   {path: 'posts' ,pathMatch: 'full', component: ViewPostsComponent, canActivate:[AuthGuard]},
   {path: 'addPost' ,pathMatch: 'full', component: CreatePostComponent,canActivate:[AuthGuard]},
   {path: 'editPost/:id' ,pathMatch: 'full', component: EditPostComponent},
+  {path: 'resultUpload', pathMatch: 'full', component: ResUploadComponent, canActivate:[AuthGuard]},
   {path: 'aboutUs', pathMatch: 'full', component: AboutUsComponent},
   {path: 'login', pathMatch: 'full', component: LoginComponent},
   {path: 'signup', pathMatch: 'full', component: SignupComponent},
@@ -25,7 +28,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [],
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes,)
   ],
   providers: [
     AuthGuard

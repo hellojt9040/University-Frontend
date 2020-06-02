@@ -5,6 +5,7 @@ import { Component, OnInit, OnDestroy} from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { SafePipe } from '../../common/pipes/safe.pipe'
 import { AuthService } from 'src/app/common/auth/auth.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -13,7 +14,10 @@ import { AuthService } from 'src/app/common/auth/auth.service';
   styleUrls: ['./view-posts.component.css'],
 })
 export class ViewPostsComponent implements OnInit, OnDestroy {
+  BACKEND_URL = environment.apiURL + "posts/"
   userIsAuthenticated = false
+
+  isLoading = false
 
   posts:Post[] = []
   private postSub:Subscription
@@ -36,6 +40,7 @@ export class ViewPostsComponent implements OnInit, OnDestroy {
       .subscribe((postData) => {
         this.posts=[...postData.posts]
         this.totalPost= postData.postCount
+        this.isLoading = false
       })
 
     //suscribing new auth status
@@ -48,6 +53,7 @@ export class ViewPostsComponent implements OnInit, OnDestroy {
   }
 
   onPageChange(pageData: PageEvent){
+    this.isLoading = true
     this.currentPage = pageData.pageIndex + 1
     this.postPerPage = pageData.pageSize
     this.postsService.getPosts(this.postPerPage, this.currentPage)
@@ -59,8 +65,14 @@ export class ViewPostsComponent implements OnInit, OnDestroy {
   }
 
   deletePost(id){
-    this.postsService.deletePost(id)
+    this.isLoading = true
+    this.postsService.deletePost(id).subscribe(() => {
+      this.postsService.getPosts(this.postPerPage, this.currentPage);
+    }, (error) => {
+      this.isLoading = false;
+    })
   }
+
 
 
 }

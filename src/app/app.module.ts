@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RoutingModule } from './routing.module';
 import { RouterModule } from '@angular/router';
 import { AngularMaterialModule } from './angular-material/angular-material.module';
-
+import { UploaderModule } from '@syncfusion/ej2-angular-inputs';
 
 import { AppComponent } from './app.component';
 import { CreatePostComponent } from './posts/create-post/create-post.component';
@@ -20,11 +20,14 @@ import { AboutUsComponent } from './common/about-us/about-us.component';
 import { LoginComponent } from './common/auth/login/login.component';
 import { SignupComponent } from '../app/common/auth/signup/signup.component'
 import { ErrorComponent } from './common/error/error.component';
+import { SfFileUploadComponent } from './common/upload/sf-file-upload/sf-file-upload.component';
+import { ResUploadComponent } from './users/res-upload/res-upload.component';
 import { SafePipe } from './common/pipes/safe.pipe';
 
 
 import { AuthInterseptor } from './common/auth/auth-interseptor';
 import { ErrorInterceptor } from './error-interceptor';
+
 
 
 @NgModule({
@@ -39,7 +42,10 @@ import { ErrorInterceptor } from './error-interceptor';
     AboutUsComponent,
     LoginComponent,
     SignupComponent,
+    SfFileUploadComponent,
+    ResUploadComponent,
     SafePipe,
+
 
 
   ],
@@ -52,8 +58,9 @@ import { ErrorInterceptor } from './error-interceptor';
     BrowserAnimationsModule,
     RoutingModule,
     RouterModule,
-    //angular-material module
-    AngularMaterialModule,
+
+    AngularMaterialModule,  //angular-material module
+    UploaderModule, //syncfusion-angular-uploader
 
   ],
   //multi TRUE says not to override, just add additional

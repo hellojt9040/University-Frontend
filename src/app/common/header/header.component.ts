@@ -9,7 +9,10 @@ import { AuthService } from '../auth/auth.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private authListenerSubs: Subscription
+  private isFacultyListenerSubs: Subscription
+
   userIsAuthenticated = false
+  userIsFaculty:boolean
 
   constructor(private authService: AuthService) { }
 
@@ -20,10 +23,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe((isAuthenticated) => {
         this.userIsAuthenticated = isAuthenticated
       })
+
+    this.userIsFaculty = this.authService.getIsFaculty()
+    this.isFacultyListenerSubs = this.authService
+      .getIsFacultyStatusListener()
+      .subscribe((isFaculty) => {
+        this.userIsFaculty = isFaculty
+      })
   }
 
   ngOnDestroy(){
     this.authListenerSubs.unsubscribe()
+    this.isFacultyListenerSubs.unsubscribe()
   }
 
   //logout

@@ -1,4 +1,4 @@
-<mat-card class="col-lg-5 d-flex justify-content-center mx-auto mt-5">
+<mat-card class="col-lg-5 d-flex justify-content-center mx-auto mt-2">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <form [formGroup]="signupForm"
         enctype="multipart/form-data"
@@ -12,44 +12,85 @@
         <span><strong>New User</strong></span>
       </div>
     </div>
-    <mat-form-field class="col-12 mb-2">
-      <mat-label>User Name</mat-label>
-      <input matInput
-            formControlName="userName"
-            placeholder="Ex. FfUuNn_03" type="text">
-      <mat-hint>This field is required !</mat-hint>
-      <mat-error *ngIf="signupForm.invalid">{{getErrorMessage('userName')}}</mat-error>
-    </mat-form-field>
-    <br>
-    <mat-form-field class="col-12 mb-2">
-      <mat-label>Email</mat-label>
-      <input matInput
-            formControlName="email"
-            type="email"
-            placeholder="Ex. example@abc.com">
-      <mat-hint>This field is required !</mat-hint>
-      <mat-error *ngIf="signupForm.invalid">{{getErrorMessage('email')}}</mat-error>
-    </mat-form-field>
-    <br>
-    <mat-form-field class="col-12 mb-2">
-      <mat-label>Password</mat-label>
-      <input matInput
-            formControlName="password"
-            type="password"
-            placeholder="Password@1234">
-      <mat-hint>This field is required !</mat-hint>
-      <mat-error *ngIf="signupForm.invalid">{{getErrorMessage('password')}}</mat-error>
-    </mat-form-field>
-    <div class="d-flex justify-content-end">
-      <button mat-raised-button type="button" color="warn" (click)="clickUpload.click()">Upload</button>
-      <input name="clickUpload"
-            #clickUpload
-            (change)="onFilePicked($event)"
-            type="file" hidden>
-    </div>
-    <br>
+    <mat-checkbox color="warn" formControlName="isFaculty">I am a faculty</mat-checkbox>
+
+<!-- FIXME: -->    <!-- <p>{{signupForm.value | json}}</p> -->
+    <div *ngIf="this.signupForm.get('isFaculty').value == true; then facultySignup else studentSignup"></div>
+    <ng-template #facultySignup>
+      <div formGroupName="faculty" class="">
+        <mat-form-field class="col-12 mb-2" *ngIf="isFaculty">
+          <mat-label>Faculty security code</mat-label>
+          <input matInput type="password" name="facultyCode" formControlName="facultySecurityCode" >
+          <mat-error *ngIf="signupForm.invalid">Enter valid key code only</mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12 mb-2">
+          <mat-label>Name</mat-label>
+          <input matInput
+                formControlName="userName"
+                placeholder="Ex. FfUuNn_03" type="text">
+          <mat-hint>This field is required !</mat-hint>
+          <mat-error *ngIf="signupForm.invalid">{{getErrorMessage('userName')}}</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="col-12 mb-2">
+          <mat-label>Email</mat-label>
+          <input matInput
+                formControlName="email"
+                type="email"
+                placeholder="Ex. example@abc.com">
+          <mat-hint>This field is required !</mat-hint>
+          <mat-error *ngIf="signupForm.invalid">{{getErrorMessage('email')}}</mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="col-12 mb-2">
+          <mat-label>Password</mat-label>
+          <input matInput
+                formControlName="password"
+                type="password"
+                placeholder="Password@1234">
+          <mat-hint>This field is required !</mat-hint>
+          <mat-error *ngIf="signupForm.invalid">{{getErrorMessage('password')}}</mat-error>
+        </mat-form-field>
+        <div class="gender d-flex justify-content-center">
+          <mat-radio-group color="warn"
+                          formControlName="gender"
+                          aria-label="Select an option">
+            <mat-radio-button value="female">Female</mat-radio-button>
+            <mat-radio-button value="male">Male</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="tel-container col-12 my-1" >
+          <mat-form-field  class="example-full-width col-12">
+            <mat-label>Telephone</mat-label>
+            <span matPrefix>+91 &nbsp;</span>
+            <input type="tel"
+                  matInput
+                  formControlName="primaryContact"
+                  placeholder="9040676767">
+            <mat-icon matSuffix>mode_edit</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="d-flex justify-content-between mb-3">
+
+          <button mat-raised-button type="button" color="warn" (click)="clickUpload.click()">Upload</button>
+          <input name="clickUpload"
+                #clickUpload
+                (change)="onFilePicked($event)"
+                type="file" hidden>
+          <span class="image-preview" *ngIf="imagePreview !== '' && imagePreview ">
+            <img [src]="imagePreview" alt="image to upload">
+          </span>
+        </div>
+        <br>
+      </div>
+
+    </ng-template>
+    <ng-template #studentSignup>
+      <!--TODO:   student signup template -->
+    </ng-template>
+
     <div class="login-button d-flex justify-content-center ">
-      <button mat-raised-button *ngIf="!isLoading" color="primary" class="mr-3">Signup</button>
+      <button mat-raised-button *ngIf="!isLoading" [disabled]="signupForm.get('faculty').invalid" color="primary" class="mr-3">Signup</button>
     </div>
   </form>
 </mat-card>

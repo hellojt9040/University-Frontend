@@ -2,6 +2,9 @@ import { AuthService } from './../auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
+
 
 @Component({
   selector: 'login',
@@ -10,6 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   isLoading = false
+  isFaculty = false
   private authListenerSubs: Subscription
 
   constructor(private authService:AuthService) { }
@@ -24,6 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe((authStaus) => {
         this.isLoading = false
       })
+
   }
 
   onLogin(loginForm: NgForm){
@@ -32,6 +37,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       return
 
     this.isLoading = true
-    this.authService.login({...loginForm.value})
+    if((loginForm.value.facultyCode as string) == environment.facultySecurityCode)
+      this.authService.facultyLogin({...loginForm.value})
+
+    return false
+//TODO: else student service call    /* this.authService.studentLogin({...loginForm.value}) */
+  }
+
+  trueFaculty(){
+    this.isFaculty = true
   }
 }

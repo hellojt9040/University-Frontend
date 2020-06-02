@@ -1,6 +1,7 @@
+import { mimeType } from './../../common/validators/mime-type.validator';
 import { Post } from './../post.model';
 import { PostsService } from './../posts.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 
@@ -9,21 +10,26 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.css']
 })
-export class CreatePostComponent{
-
+export class CreatePostComponent implements OnInit{
+  post : FormGroup
   constructor(private postsService:PostsService){
 
   }
+  ngOnInit(){
+    this.post = new FormGroup({
+      title: new FormControl('',Validators.required),
+      description: new FormControl('',Validators.required),
+      media:new FormControl('',)
+    })
+  }
 
   showDdArea: Boolean= false;
-  private _media:string;
+  imagePreview:string
+
 
   newPost:Post
 
-  post = new FormGroup({
-    title: new FormControl('',Validators.required),
-    description: new FormControl('',Validators.required),
-  })
+
 
   get title() {
     return this.post.get('title')
@@ -32,15 +38,11 @@ export class CreatePostComponent{
     return this.post.get('description')
   }
   get media() {
-    if(this._media)
-      return this._media
-  }
-  set media(mediaData) {
-    this._media = mediaData
+    return this.post.get('media')
   }
 
   addPost(){
-    this.postsService.addPost(this.title.value,this.description.value,this.media)
+    this.postsService.addPost(this.title.value,this.description.value,this.media.value)
     this.post.reset()
   }
 
@@ -50,16 +52,26 @@ export class CreatePostComponent{
     }
   }
 
-  onFileComplete(data: any) {
-    this.media = data.link
+  onFilePicked(event: Event){
+    const file:File = (event.target as HTMLInputElement).files[0]
 
-    /* this.newPost['media']=data.link
-    console.log(data.link) */
+    const reader = new FileReader()
+    reader.onload = () => {
+      this.imagePreview = reader.result as string
+
+      this.post.patchValue({media:file})
+      this.post.get('media').updateValueAndValidity()
+    }
+    reader.readAsDataURL(file)
+  }
+
+/*   onFileComplete(data: any) {
+    this.media = data.link
   }
 
   onShowDdAreaChange(){
     console.log(this.showDdArea);
-  }
+  } */
 
 
 }

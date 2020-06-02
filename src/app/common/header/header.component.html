@@ -1,14 +1,18 @@
-<mat-toolbar color = "primary" class="justify-content-between">
+<mat-toolbar color = "primary" class="d-flex justify-content-between">
   <div >
     <span *ngIf="userIsAuthenticated" class="mx-2 pointer" >
       <a mat-button routerLink="/posts" routerLinkActive="mat-accent">My Posts</a>
     </span>
-    <span class="mx-2 pointer">
+    <span *ngIf="userIsAuthenticated" class="mx-2 pointer">
       <a mat-button routerLink="/addPost" routerLinkActive="mat-accent">Create Post</a>
     </span>
-    <span class="mx-2 pointer">
-      <a mat-button routerLink="/aboutUs" routerLinkActive="mat-accent">About Us</a>
+    <span *ngIf="userIsFaculty" class="mx-2 pointer">
+      <a mat-button routerLink="/resultUpload" routerLinkActive="mat-accent">Upload Result</a>
     </span>
+    <!-- <span class="mx-2 pointer">
+      <a mat-button routerLink="/aboutUs" routerLinkActive="mat-accent">About Us</a>
+    </span> -->
+    
   </div>
 
   <div>

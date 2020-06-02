@@ -1,13 +1,10 @@
 <form [formGroup]="post" class="example-form">
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="example-full-width pt-5">
     <mat-label>Post Title</mat-label>
     <input  matInput
             name="postTitle"
             formControlName="title"
-            placeholder="Ex. Roming in street of Europe is really awesome">
-   <!--  <p *ngIf="!postTitle.valid && postTitle.touched">
-      <span *ngIf="postTitle.errors.required">Title field is required</span>
-    </p> -->
+            placeholder="Ex. Mid sem result outs tomorrow">
     <mat-hint>This field is required !</mat-hint>
     <mat-error *ngIf="title.invalid">{{getErrorMessage()}}</mat-error>
   </mat-form-field>
@@ -16,7 +13,7 @@
     <mat-label>Description</mat-label>
     <textarea matInput
               formControlName="description"
-              placeholder="Write something more you feel">
+              placeholder="Write something more...">
     </textarea>
     <mat-hint>This field is required !</mat-hint>
     <mat-error *ngIf="title.invalid">{{getErrorMessage()}}</mat-error>
@@ -28,12 +25,20 @@
           (click)="addPost()">Add Post</button>
 
   <div style="text-align:center">
-    <file-upload [ddarea]="showDdArea" (complete)="onFileComplete($event)"></file-upload>
+    <button mat-raised-button type="button" color="warn" (click)="clickUpload.click()">Upload</button>
+    <input name="clickUpload"
+          #clickUpload
+          (change)="onFilePicked($event)"
+          type="file" hidden>
+    <span class="image-preview" *ngIf="imagePreview !== '' && imagePreview && this.media.valid">
+      <img [src]="imagePreview" alt="image to upload">
+    </span>
+    <!--TODO: <file-upload [ddarea]="showDdArea" (complete)="onFileComplete($event)"></file-upload> -->
   </div>
 
 </form>
 
 <div style="text-align:center">
   <p>Upload a media with your new post</p>
-  <mat-slide-toggle color="warn" name="showDdArea" [(ngModel)]="showDdArea">Show Drag and Drop Area</mat-slide-toggle>
+  <!-- <mat-slide-toggle color="warn" name="showDdArea" [(ngModel)]="showDdArea">Show Drag and Drop Area</mat-slide-toggle> -->
 </div>

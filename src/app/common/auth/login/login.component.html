@@ -1,9 +1,31 @@
-<mat-card class="col-lg-5 d-flex justify-content-center mx-auto mt-5">
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-card class="col-lg-5 col-sm-10 d-flex justify-content-center flex-column  mx-auto mt-5">
+  <div class="d-flex justify-content-center flex-column mb-5">
+      <div class="d-flex justify-content-center mb-4">
+        <mat-icon aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon>
+      </div>
+      <div class="d-flex justify-content-center">
+        <span><strong>Signin User</strong></span>
+      </div>
+  </div>
+  <div class="d-flex justify-content-center">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </div>
   <form #form="ngForm"
         (ngSubmit)="onLogin(form)"
         *ngIf="!isLoading"
         class="col-12">
+    <mat-checkbox color="warn"
+                  name="faculty"
+                  #faculty="ngModel"
+                  (change)="trueFaculty()"
+                  ngModel>I am a faculty
+    </mat-checkbox>
+  <!-- FIXME: --> <!-- <p>{{form.value | json}}</p>   *ngIf="form.value.faculty"-->
+  <mat-form-field class="col-12 mb-2" *ngIf="form.value.faculty">
+    <mat-label>Faculty security code</mat-label>
+    <input matInput type="password" name="facultyCode" ngModel #facultyCode="ngModel" required >
+    <mat-error *ngIf="facultyCode.invalid">Enter valid key code only</mat-error>
+  </mat-form-field>
     <mat-form-field class="col-12 mb-2">
       <mat-label>Email</mat-label>
       <input matInput placeholder="Ex. example@abc.com" type="email" name="email" ngModel #email="ngModel" required email>

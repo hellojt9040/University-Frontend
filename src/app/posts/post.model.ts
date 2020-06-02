@@ -3,4 +3,6 @@ export interface Post {
   id:string,
   description:string,
   media?:string,
+  owner:string,
+  updatedAt:string
 }

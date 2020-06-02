@@ -9,4 +9,12 @@
   width: 100%;
 }
 
+.image-preview{
+  height: 0.5rem;
+  margin-left: 1rem;
+}
+
+.image-preview img{
+  height: 40px;
+}
 

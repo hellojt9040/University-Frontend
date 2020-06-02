@@ -9,7 +9,7 @@ import { Post } from './posts/post.model';
 })
 export class AppComponent implements OnInit{
 
-  title = 'Mean-Project';
+  title = 'University Project';
 
   storedPosts:Post[] = []
 

@@ -1,3 +1,16 @@
 mat-icon{
   font-size: 3rem;
 }
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.image-preview{
+  height: 0.5rem;
+}
+
+.image-preview img{
+  height: 40px;
+}
+

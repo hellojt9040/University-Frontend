@@ -1,3 +1,4 @@
+<mat-spinner *ngIf="isLoading"></mat-spinner>
 <div *ngIf="!userIsAuthenticated" class="d-flex justify-content-center mt-7 text-warning ">
   <strong>Authentication Required   !!   Please Login/Signup</strong>
 </div>
@@ -17,15 +18,18 @@
       <span>Add Post</span>
     </button>
   </div>
-  
+
   <div class="post" *ngFor="let post of posts">
     <mat-card class="example-card">
       <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
+        <div mat-card-avatar >
+          <img src='{{ BACKEND_URL + post.owner + "/avatar" }}' style="height: 2.5rem;" alt="owner picture">
+        </div>
         <mat-card-title>{{post.title}}</mat-card-title>
+        <mat-card-subtitle>On {{post.updatedAt}}</mat-card-subtitle>
       </mat-card-header>
-      <!-- <img mat-card-image *ngIf="post.media != undefined" class="cardMedia" src={{post.media}} alt="Photo of a Shiba Inu"> -->
-  <img mat-card-image *ngIf="post.media != undefined" class="cardMedia"  [src]="post.media" alt="Photo of a Shiba Inu">
+      <!-- <img mat-card-image *ngIf="post.media != undefined" class="cardMedia" src={{post.media}} alt="post media"> -->
+      <img mat-card-image *ngIf="post.media" class="cardMedia"  [src]="post.media" alt="post media">
       <mat-card-content>
         <p>
           {{post.description}}
@@ -52,7 +56,7 @@
       </mat-card-actions>
     </mat-card>
   </div>
-  <div>
+  <div *ngIf="posts.length > 0">
     <mat-paginator [length]="totalPost"
                   [pageSize]="postPerPage"
                   [pageSizeOptions]="pageSizeOptions"
