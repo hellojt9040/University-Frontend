@@ -1,13 +1,21 @@
-<mat-toolbar color = "primary" class="d-flex justify-content-between">
+<mat-toolbar color = "primary" class="d-flex justify-content-between mat-elevation-z6">
   <div >
     <span *ngIf="userIsAuthenticated" class="mx-2 pointer" >
-      <a mat-button routerLink="/posts" routerLinkActive="mat-accent">My Posts</a>
+      <a mat-button routerLink="/posts" routerLinkActive="mat-accent">Posts</a>
     </span>
-    <span *ngIf="userIsAuthenticated" class="mx-2 pointer">
+    <span *ngIf="userIsAuthenticated && userIsFaculty" class="mx-2 pointer">
       <a mat-button routerLink="/addPost" routerLinkActive="mat-accent">Create Post</a>
     </span>
     <span *ngIf="userIsFaculty" class="mx-2 pointer">
       <a mat-button routerLink="/resultUpload" routerLinkActive="mat-accent">Upload Result</a>
+    </span>
+    <span *ngIf="!userIsFaculty && userIsAuthenticated" class="mx-2 pointer">
+      <a mat-button routerLink="/viewResults" routerLinkActive="mat-accent">Results</a>
+    </span>
+    <span *ngIf="!userIsFaculty && userIsAuthenticated" class="mx-2 pointer">
+      <a mat-button routerLink="/myLocation" routerLinkActive="mat-accent">
+        <mat-icon aria-hidden="false" aria-label="Example home icon">room</mat-icon>
+      </a>
     </span>
     <!-- <span class="mx-2 pointer">
       <a mat-button routerLink="/aboutUs" routerLinkActive="mat-accent">About Us</a>
@@ -26,6 +34,11 @@
       <button mat-button (click)="onLogout()">
         LOGOUT
       </button>
+    </span>
+    <span *ngIf="userIsAuthenticated"  class="mx-2 pointer">
+      <a mat-button routerLink="/profile" routerLinkActive="mat-accent">
+        <mat-icon aria-hidden="false" aria-label="Example home icon">person</mat-icon>
+      </a>
     </span>
   </div>
 

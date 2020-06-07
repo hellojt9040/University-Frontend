@@ -1,3 +1,5 @@
+import { MyLocationComponent } from './common/my-location/my-location.component';
+import { ViewResultsComponent } from './users/view-results/view-results.component';
 import { AboutUsComponent } from './common/about-us/about-us.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -10,6 +12,7 @@ import { LoginComponent } from './common/auth/login/login.component';
 import { SignupComponent } from './common/auth/signup/signup.component';
 import { ResUploadComponent } from './users/res-upload/res-upload.component';
 import { AuthGuard } from './common/auth/auth.guard';
+import { ProfileComponent } from './users/profile/profile.component';
 
 
 const routes: Routes = [
@@ -18,7 +21,10 @@ const routes: Routes = [
   {path: 'addPost' ,pathMatch: 'full', component: CreatePostComponent,canActivate:[AuthGuard]},
   {path: 'editPost/:id' ,pathMatch: 'full', component: EditPostComponent},
   {path: 'resultUpload', pathMatch: 'full', component: ResUploadComponent, canActivate:[AuthGuard]},
-  {path: 'aboutUs', pathMatch: 'full', component: AboutUsComponent},
+  //{path: 'aboutUs', pathMatch: 'full', component: AboutUsComponent},
+  {path: 'profile', pathMatch: 'full', component: ProfileComponent, canActivate:[AuthGuard]},
+  {path: 'viewResults', pathMatch: 'full', component: ViewResultsComponent, canActivate:[AuthGuard]},
+  {path: 'myLocation', pathMatch: 'full', component: MyLocationComponent, canActivate:[AuthGuard]},
   {path: 'login', pathMatch: 'full', component: LoginComponent},
   {path: 'signup', pathMatch: 'full', component: SignupComponent},
   {path: '**', component: NotFoundComponent},

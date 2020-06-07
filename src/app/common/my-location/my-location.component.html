@@ -1,0 +1,10 @@
+<mat-toolbar color="warn" class="mat-elevation shadow-lg">
+  <span>My Current location</span>
+    <span class="example-spacer"></span>
+    <a [href]="myCurrentLocation" routerLinkActive="mat-accent">
+      <mat-icon class="example-icon" aria-hidden="false" aria-label="Example user verified icon">share</mat-icon>
+    </a>
+</mat-toolbar>
+  <agm-map style="height:500px" [zoom]='19' [latitude]="lat" [longitude]="lng">
+    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+  </agm-map>

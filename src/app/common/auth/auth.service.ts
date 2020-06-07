@@ -62,6 +62,11 @@ export class AuthService {
           this.isAuthenticated = true
           this._authStatusListener.next(true)
           this._isFacultyStatusListener.next(true)
+
+          const now = new Date()
+          const expirationDate = new Date(now.getTime() + this.AUTH_EXPIRING_TiME*1000)
+
+          this.saveAuthData(token, expirationDate, this.isFaculty)
           this.router.navigate(["/"])
         }
       },(error) => {
@@ -71,6 +76,38 @@ export class AuthService {
   }
 
   //signup new student user
+  studentSignUp(newUser){
+    const URL  = BACKEND_URL.replace('faculty/','student/')
+
+    this.http.post(URL + "newStudent", newUser)
+      .subscribe((response) => {
+        this.isFaculty = false
+
+        const token = response['token']
+        this._token = token
+        if(token){
+          this.tokenTimer = setTimeout(() => {
+            this.logout()
+          }, this.AUTH_EXPIRING_TiME * 1000);
+
+          this.isAuthenticated = true
+          this._authStatusListener.next(true)
+          this._isFacultyStatusListener.next(false)
+
+          const now = new Date()
+          const expirationDate = new Date(now.getTime() + this.AUTH_EXPIRING_TiME*1000)
+
+          this.saveAuthData(token, expirationDate, this.isFaculty)
+          this.router.navigate(["/"])
+        }
+      },(error) => {
+        console.log(error, 'stude err');
+
+        this._authStatusListener.next(false)
+        this._isFacultyStatusListener.next(false)
+      })
+  }
+
 
   //login user
   facultyLogin(user){
@@ -100,11 +137,40 @@ export class AuthService {
       })
   }
 
+  //student login
+  studentLogin(user){
+    const URL  = BACKEND_URL.replace('faculty/','student/')
+    this.http.post(URL + "login", user)
+      .subscribe((response) => {
+        this.isFaculty = false
+
+        const token = response['token']
+        this._token = token
+        if(token){
+          this.setAuthTimer(this.AUTH_EXPIRING_TiME)
+
+          this.isAuthenticated = true
+          this._authStatusListener.next(true)
+          this._isFacultyStatusListener.next(false)
+
+          const now = new Date()
+          const expirationDate = new Date(now.getTime() + this.AUTH_EXPIRING_TiME*1000)
+
+          this.saveAuthData(token, expirationDate, this.isFaculty)
+          this.router.navigate(["/"])
+        }
+
+      },(error) => {
+        console.log(error, 'stu login err');
+
+        this._authStatusListener.next(false)
+        this._isFacultyStatusListener.next(false)
+      })
+  }
+
   //auto checking login
   autoAuthUser(){
     const authInformation = this.getLocalAuthData()
-
-
     if(!authInformation)
       return
     const now = new Date()
@@ -118,15 +184,13 @@ export class AuthService {
         this.isFaculty=true
         this._isFacultyStatusListener.next(true)
       }
-
     }
   }
 
   //logout
   logout(){
-
-    //faculty logout
-
+    if (this.isFaculty) {
+      //faculty logout
       this.http.post(BACKEND_URL + "logout", null)
       .subscribe((response) => {
         this._isFacultyStatusListener.next(false)
@@ -139,12 +203,22 @@ export class AuthService {
       },(error) => {
           console.error(error);
       })
-
-
-
-
-   /*  TODO: student logout request */
-
+    } else {
+      //student logout
+      const URL = BACKEND_URL.replace('faculty/','student/')
+      this.http.post(URL + "logout", null)
+      .subscribe((response) => {
+        this._isFacultyStatusListener.next(false)
+        this._token = null
+        this.isAuthenticated = false
+        this._authStatusListener.next(false)
+        clearTimeout(this.tokenTimer)
+        this.clearAuthData()
+        this.router.navigate(["/"])
+      },(error) => {
+          console.error(error);
+      })
+    }
   }
 
   //get Local AuthData
@@ -162,10 +236,19 @@ export class AuthService {
     }
   }
 
+  //get user profile data
+  getUserProfileData(isFaculty, userId){
+    let URL = BACKEND_URL
+
+    if(!isFaculty){
+      URL = BACKEND_URL.replace("faculty/","student/")
+    }
+    return this.http.get(URL+ 'getProfileData/' + userId)
+
+  }
+
   //set auth timer
   private setAuthTimer(duration: number){
-    // console.log('setting timer :', duration);
-
     this.tokenTimer = setTimeout(() => {
       this.logout()
     }, duration * 1000)

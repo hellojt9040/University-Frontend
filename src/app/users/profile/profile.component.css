@@ -1,0 +1,36 @@
+.example-card {
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+.wrapper {
+  padding: 100px;
+}
+
+.image--cover {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: 20px;
+
+  object-fit: cover;
+  object-position: center right;
+}
+
+.user-name{
+  font-family: 'Russo One', sans-serif !important;
+  font-size: 2rem !important;
+}
+
+.sub-headers{
+  font-family: 'Lexend Tera', sans-serif;
+  font-size: 1rem !important;
+}
+
+.about{
+  font-family: 'Roboto', sans-serif;
+}

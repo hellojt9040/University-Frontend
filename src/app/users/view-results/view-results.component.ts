@@ -1,26 +1,15 @@
-import { Subscription, Subject } from 'rxjs';
 import { UserService } from './../user.service';
+import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd, RouterEvent } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
-import { map, buffer } from 'rxjs/operators';
 
 
 @Component({
-  selector: 'res-upload',
-  templateUrl: './res-upload.component.html',
-  styleUrls: ['./res-upload.component.css']
+  selector: 'view-results',
+  templateUrl: './view-results.component.html',
+  styleUrls: ['./view-results.component.css']
 })
-
-
-
-export class ResUploadComponent implements OnInit, OnDestroy {
-  /* isResultUploaded: boolean
-  private isResultUploadedListenerSubs: Subscription; */
-
-  /* public destroyed = new Subject<any>();  */
+export class ViewResultsComponent implements OnInit, OnDestroy {
   private studentResultData
   isResultAvailable = false
   private resultListenerSubs: Subscription
@@ -39,7 +28,7 @@ export class ResUploadComponent implements OnInit, OnDestroy {
     this.isResultAvailable = true
   }
 
-  ngOnInit(): void {
+  ngOnInit(){
     this.userService.getResults()
     this.resultListenerSubs = this.userService
       .getResultUpdated()
@@ -61,4 +50,5 @@ export class ResUploadComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.resultListenerSubs.unsubscribe()
   }
+
 }

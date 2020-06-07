@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -27,6 +28,11 @@ import { SafePipe } from './common/pipes/safe.pipe';
 
 import { AuthInterseptor } from './common/auth/auth-interseptor';
 import { ErrorInterceptor } from './error-interceptor';
+import { ProfileComponent } from './users/profile/profile.component';
+import { ResetPasswordComponent } from './users/reset-password/reset-password.component';
+import { ViewResultsComponent } from './users/view-results/view-results.component';
+import { MyLocationComponent } from './common/my-location/my-location.component';
+import { AgmCoreModule } from '@agm/core';
 
 
 
@@ -45,6 +51,10 @@ import { ErrorInterceptor } from './error-interceptor';
     SfFileUploadComponent,
     ResUploadComponent,
     SafePipe,
+    ProfileComponent,
+    ResetPasswordComponent,
+    ViewResultsComponent,
+    MyLocationComponent,
 
 
 
@@ -61,6 +71,10 @@ import { ErrorInterceptor } from './error-interceptor';
 
     AngularMaterialModule,  //angular-material module
     UploaderModule, //syncfusion-angular-uploader
+
+    AgmCoreModule.forRoot({
+      apiKey: environment.mApiKey
+    })
 
   ],
   //multi TRUE says not to override, just add additional

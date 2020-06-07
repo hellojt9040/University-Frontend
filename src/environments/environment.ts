@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiURL:"http://localhost:3000/universityApi/",
-  facultySecurityCode:'true_faculty'
+  facultySecurityCode:'true_faculty',
+  mApiKey:'AIzaSyCDKBu1aPoiFQX0tCZUJJ2I8_JRW7f_vmU'
 };
 
 /*

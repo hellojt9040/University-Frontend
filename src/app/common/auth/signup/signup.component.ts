@@ -1,3 +1,5 @@
+import { ErrorComponent } from './../../error/error.component';
+import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { mimeType } from '../../validators/mime-type.validator';
@@ -18,67 +20,93 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   private authListenerSubs: Subscription
   imagePreview: string
-  signupForm:FormGroup
+  //signupForm:FormGroup
 
-  constructor(private authService:AuthService) { }
+  constructor(private authService:AuthService, private dialog: MatDialog) { }
+
+  signupForm = new FormGroup({
+
+    isFaculty: new FormControl('',{
+      validators: [],
+      asyncValidators: []
+    }),
+
+    faculty: new FormGroup({
+
+      facultySecurityCode:new FormControl('',{
+        validators: [Validators.required,],
+        asyncValidators: []
+      }),
+      userName: new FormControl('',{
+        validators: [
+          Validators.required,
+          Validators.minLength(4),
+        ]
+      }),
+      email: new FormControl('',{
+        validators: [Validators.required],
+        asyncValidators: []
+      }),
+      password: new FormControl('',{
+        validators: [Validators.required, Validators.minLength(5)]
+      }),
+      gender: new FormControl('',{
+        validators: [Validators.required]
+      }),
+      primaryContact: new FormControl('',{
+        validators: [
+          Validators.required,
+          Validators.pattern('[0-9]{10}')
+        ]
+      }),
+      avatar: new FormControl('', {
+        validators: [Validators.required], //required validaot is requred for mime type valid, else
+        asyncValidators:[mimeType]
+      })
+    }),
+    // TODO:
+    student: new FormGroup({
+      // student signup form
+      userName: new FormControl('',{
+        validators: [
+          Validators.required,
+          Validators.minLength(4),
+        ]
+      }),
+      rollNo: new FormControl('',{
+        validators: [Validators.required]
+      }),
+      email: new FormControl('',{
+        validators: [Validators.required],
+        asyncValidators: []
+      }),
+      password: new FormControl('',{
+        validators: [Validators.required, Validators.minLength(5)]
+      }),
+      gender: new FormControl('',{
+        validators: [Validators.required]
+      }),
+      branch: new FormControl('',{
+        validators: [Validators.required]
+      }),
+      primaryContact: new FormControl('',{
+        validators: [
+          Validators.required,
+          Validators.pattern('[0-9]{10}')
+        ]
+      }),
+      avatar: new FormControl('', {
+        validators: [Validators.required], //required validaot is requred for mime type valid, else
+        asyncValidators:[mimeType]
+      })
+    }),
+  })
 
   ngOnDestroy(){
     this.authListenerSubs.unsubscribe()
   }
 
   ngOnInit(){
-
-    this.signupForm = new FormGroup({
-
-      isFaculty: new FormControl('',{
-        validators: [],
-        asyncValidators: []
-      }),
-
-      faculty: new FormGroup({
-
-        facultySecurityCode:new FormControl('',{
-          validators: [Validators.required,],
-          asyncValidators: []
-        }),
-        userName: new FormControl('',{
-          validators: [
-            Validators.required,
-            Validators.minLength(4),
-          ]
-        }),
-        email: new FormControl('',{
-          validators: [Validators.required],
-          asyncValidators: []
-        }),
-        password: new FormControl('',{
-          validators: [Validators.required, Validators.minLength(5)]
-        }),
-        gender: new FormControl('',{
-          validators: [Validators.required]
-        }),
-        primaryContact: new FormControl('',{
-          validators: [
-            Validators.required,
-            Validators.pattern('[0-9]{10}')
-          ]
-        }),
-        avatar: new FormControl('', {
-          validators: [Validators.required], //required validaot is requred for mime type valid, else
-          asyncValidators:[mimeType]
-        })
-      }),
-
-      /* // TODO:
-      student: new FormGroup({
-        // student signup form
-      }) */
-
-
-    })
-
-
-
     //gettig auth status
     this.authListenerSubs = this.authService.getAuthStatusListener()
       .subscribe((authStaus) => {
@@ -87,26 +115,30 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   checkTrueFaculty(key){
-    if(key == environment.facultySecurityCode){
+    if(!key.value)
+      return
+
+    if(key.value === environment.facultySecurityCode){
       this.isTrueFaculty = true
-      console.log(this.isTrueFaculty,'this.isTrueFaculty');
       return true
 
     }
     this.isTrueFaculty = false
+    this.dialog.open(ErrorComponent, {data: {message:'Wrong Faculty Security Key !!'}})
+    this.isLoading = false
+
   }
 
   onSignup(signupForm:FormGroup){
-    if(signupForm.invalid){
+    if(this.signupForm.get('faculty').invalid && this.signupForm.get('student').invalid){
       return
     }
     this.isLoading = true
-//(loginForm.value.facultyCode as string) == environment.facultySecurityCode
     let newUser
 
-    this.checkTrueFaculty(this.facultySecurityCode)  && this.isTrueFaculty
+    this.checkTrueFaculty(this.facultySecurityCode)
 
-    if(this.signupForm.get('isFaculty').value ){
+    if(this.isTrueFaculty == true){
       newUser = new FormData()
       newUser.append('facultyName', signupForm.value.faculty.userName)
       newUser.append('email', signupForm.value.faculty.email)
@@ -116,6 +148,21 @@ export class SignupComponent implements OnInit, OnDestroy {
       newUser.append('avatar', signupForm.value.faculty.avatar)
 
       this.authService.facultySignUp(newUser)
+    }
+
+    if(this.isFaculty.value === ""){
+      newUser = new FormData()
+      newUser.append('studentName', signupForm.value.student.userName)
+      newUser.append('email', signupForm.value.student.email)
+      newUser.append('password', signupForm.value.student.password)
+      newUser.append('gender', signupForm.value.student.gender)
+      newUser.append('primaryContact', signupForm.value.student.primaryContact)
+      newUser.append('rollNo', signupForm.value.student.rollNo as string)
+      newUser.append('branch', signupForm.value.student.branch)
+      newUser.append('avatar', signupForm.value.student.avatar)
+
+      this.authService.studentSignUp(newUser)
+
     }
 
     /* //TODO: else student form data
@@ -143,16 +190,23 @@ export class SignupComponent implements OnInit, OnDestroy {
     reader.onload = () => {
       this.imagePreview = reader.result as string
 
-      this.signupForm.patchValue({faculty:{avatar:file}})
-      //(this.signupForm.controls['faculty'].at(1)).patchValue({avatar: file});
-      this.signupForm.get('faculty.avatar').updateValueAndValidity()
+      if(this.isFaculty.value == true){
+        this.signupForm.patchValue({faculty:{avatar:file}})
+        this.signupForm.get('faculty.avatar').updateValueAndValidity()
+      }else {
+        this.signupForm.patchValue({student:{avatar:file}})
+        this.signupForm.get('student.avatar').updateValueAndValidity()
+      }
+
     }
     reader.readAsDataURL(file)
   }
 
-  /* uploadNewAvatar(avatar:File){
-    this.userService.uploadNewAvatar({avatar})
-  } */
+  resetStudent(){
+    this.signupForm.get('student').reset()
+    this.signupForm.get('faculty').reset()
+    this.imagePreview = ''
+  }
 
 
   //getters

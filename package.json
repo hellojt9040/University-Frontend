@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "@agm/core": "^1.1.0",
     "@angular/animations": "~9.1.1",
     "@angular/cdk": "^9.2.0",
     "@angular/common": "~9.1.1",
@@ -24,6 +25,8 @@
     "@angular/router": "~9.1.1",
     "@syncfusion/ej2-angular-inputs": "^18.1.54",
     "bootstrap": "^4.4.1",
+    "googleapis": "^52.1.0",
+    "jwt-decode": "^2.2.0",
     "material-design-icons": "^3.0.1",
     "tslib": "^1.10.0",
     "zone.js": "^0.10.3"

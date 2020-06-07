@@ -64,14 +64,4 @@ export class CreatePostComponent implements OnInit{
     }
     reader.readAsDataURL(file)
   }
-
-/*   onFileComplete(data: any) {
-    this.media = data.link
-  }
-
-  onShowDdAreaChange(){
-    console.log(this.showDdArea);
-  } */
-
-
 }

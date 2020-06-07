@@ -1,0 +1,175 @@
+<mat-card class="col-lg-10 col-sm-10 mx-auto d-flex flex-column mt-5">
+
+
+  <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+  <mat-card-content class="d-flex justify-content-center">
+    <div class="mx-auto">
+      <img [src]="userProfilePic" class="image--cover">
+    </div>
+    <div class="user-name d-flex justify-content-center w-100">
+      <div *ngIf="userIsFaculty; then facultyName else studentName"></div>
+      <ng-template #facultyName >
+        <strong class="w-100">
+          <mat-toolbar class="mat-elevation-z6 h-100" color="primary">
+            <div class="d-flex flex-column">
+              <div class="user-name">
+                {{ currentUser['facultyName'] }}
+              </div>
+              <div class="sub-headers">
+                Faculty
+              </div>
+            </div>
+          </mat-toolbar>
+        </strong>
+
+      </ng-template>
+      <ng-template #studentName>
+        <strong class="w-100">
+          <mat-toolbar class="mat-elevation-z6 h-100" color="primary">
+            <div class="d-flex flex-column">
+              <div class="user-name">
+                {{ currentUser['studentName']}}
+              </div>
+              <div class="sub-headers">
+                I am a Student
+              </div>
+            </div>
+          </mat-toolbar>
+        </strong>
+      </ng-template>
+    </div>
+
+
+  </mat-card-content>
+  <mat-card-content>
+    <mat-tab-group>
+      <mat-tab label="Me">
+        <div *ngIf="userIsFaculty; then fName else sName" class="pt-4"></div>
+        <ng-template #fName >
+          <p class="text-muted" *ngIf="!currentUser['facultyAuthyId']">
+            <mat-icon color="warn">sms_failed</mat-icon>
+            Refresh the page if faculty/student ID is not visible !
+          </p>
+          <div class="row col-9 mt-4">
+            <span class="col-3">
+              Name
+            </span>
+            <span class="col-3">
+              {{ currentUser['facultyName'] }}
+            </span>
+          </div>
+          <div class="row col-9">
+            <span class="col-3">
+              Email
+            </span>
+            <span class="col-3">
+              {{ currentUser['email'] }}
+            </span>
+          </div>
+          <div class="row col-9">
+            <span class="col-3">
+              Gender
+            </span>
+            <span class="col-3">
+              {{ currentUser['gender'] }}
+            </span>
+          </div>
+          <div class="row col-9">
+            <span class="col-3">
+              Primary Contact
+            </span>
+            <span class="col-3">
+              {{ currentUser['primaryContact'] }}
+            </span>
+          </div>
+          <div class="row col-9">
+            <span class="col-3">
+              Faculty Id
+            </span>
+            <span class="col-3">
+              {{ currentUser['facultyAuthyId'] }}
+            </span>
+          </div>
+        </ng-template>
+        <ng-template #sName>
+          <p class="text-muted" *ngIf="!currentUser['studentAuthyId']">
+            <mat-icon color="warn">sms_failed</mat-icon>
+            Refresh the page if faculty/student ID is not visible !</p>
+          <div class="row col-9 mt-4">
+            <span class="col-3">
+              Name
+            </span>
+            <span class="col-3">
+              {{ currentUser['studentName'] }}
+            </span>
+          </div>
+          <div class="row col-9">
+            <span class="col-3">
+              Roll No.
+            </span>
+            <span class="col-3">
+              {{ currentUser['rollNo'] }}
+            </span>
+          </div>
+          <div class="row col-9">
+            <span class="col-3">
+              Branch
+            </span>
+            <span class="col-3">
+              {{ currentUser['branch'] }}
+            </span>
+          </div>
+          <div class="row col-9">
+            <span class="col-3">
+              Email
+            </span>
+            <span class="col-3">
+              {{ currentUser['email'] }}
+            </span>
+          </div>
+          <div class="row col-9">
+            <span class="col-3">
+              Gender
+            </span>
+            <span class="col-3">
+              {{ currentUser['gender'] }}
+            </span>
+          </div>
+          <div class="row col-9">
+            <span class="col-3">
+              Primary Contact
+            </span>
+            <span class="col-3">
+              {{ currentUser['primaryContact'] }}
+            </span>
+          </div>
+          <div class="row col-9">
+            <span class="col-3">
+              Student Id
+            </span>
+            <span class="col-3">
+              {{ currentUser['studentAuthyId'] }}
+            </span>
+          </div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="About">
+        <div *ngIf="userIsFaculty" class="about mt-4">
+          Faculty at {{university}} University
+        </div>
+        <div *ngIf="!userIsFaculty" class="about mt-4">
+          Student at {{university}} University
+        </div>
+      </mat-tab>
+      <mat-tab label="Password Management">
+        <div class="mt-4">
+          <button (click)="openResetPassword()" mat-raised-button color="warn">Reset
+             Password</button>
+        </div>
+
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
+
+

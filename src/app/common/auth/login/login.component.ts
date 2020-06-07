@@ -1,3 +1,5 @@
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorComponent } from './../../error/error.component';
 import { AuthService } from './../auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -16,7 +18,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   isFaculty = false
   private authListenerSubs: Subscription
 
-  constructor(private authService:AuthService) { }
+  private isTrueFaculty = false
+
+
+  constructor(private authService:AuthService, private dialog: MatDialog) { }
 
   ngOnDestroy(){
     this.authListenerSubs.unsubscribe()
@@ -37,14 +42,32 @@ export class LoginComponent implements OnInit, OnDestroy {
       return
 
     this.isLoading = true
-    if((loginForm.value.facultyCode as string) == environment.facultySecurityCode)
-      this.authService.facultyLogin({...loginForm.value})
+    this.checkTrueFaculty(loginForm.value.facultyCode as string)
 
-    return false
+    if(this.isTrueFaculty == true){
+      return this.authService.facultyLogin({...loginForm.value})
+    }
+
+    this.authService.studentLogin({...loginForm.value})
 //TODO: else student service call    /* this.authService.studentLogin({...loginForm.value}) */
   }
 
   trueFaculty(){
     this.isFaculty = true
+  }
+
+  checkTrueFaculty(key){
+    if(!key)
+      return
+
+    if(key === environment.facultySecurityCode){
+      this.isTrueFaculty = true
+      return true
+
+    }
+    this.isTrueFaculty = false
+    this.dialog.open(ErrorComponent, {data: {message:'Wrong Faculty Security Key !!'}})
+    this.isLoading = false
+
   }
 }

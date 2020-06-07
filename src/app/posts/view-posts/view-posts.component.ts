@@ -15,7 +15,10 @@ import { environment } from 'src/environments/environment';
 })
 export class ViewPostsComponent implements OnInit, OnDestroy {
   BACKEND_URL = environment.apiURL + "posts/"
+
+  private isFacultyListenerSubs: Subscription
   userIsAuthenticated = false
+  userIsFaculty:boolean
 
   isLoading = false
 
@@ -50,6 +53,13 @@ export class ViewPostsComponent implements OnInit, OnDestroy {
       .subscribe((isAuthenticated) => {
         this.userIsAuthenticated = isAuthenticated
       })
+
+    this.userIsFaculty = this.authService.getIsFaculty()
+    this.isFacultyListenerSubs = this.authService
+    .getIsFacultyStatusListener()
+    .subscribe((isFaculty) => {
+      this.userIsFaculty = isFaculty
+    })
   }
 
   onPageChange(pageData: PageEvent){
@@ -62,6 +72,7 @@ export class ViewPostsComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.postSub.unsubscribe()
     this.authListenerSubs.unsubscribe()
+    this.isFacultyListenerSubs.unsubscribe()
   }
 
   deletePost(id){

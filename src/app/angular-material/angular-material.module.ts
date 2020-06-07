@@ -17,6 +17,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { MatTableModule } from '@angular/material/table';
     MatDialogModule,
     MatRadioModule,
     MatTableModule,
-
+    MatTabsModule,
+    
   ]
 })
 export class AngularMaterialModule { }

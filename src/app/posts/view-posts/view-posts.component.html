@@ -7,7 +7,7 @@
     <span> No posts added yet !! </span>
   </div>
 
-  <div style="text-align: center;" >
+  <div style="text-align: center;" *ngIf="userIsFaculty">
     <button mat-raised-button
             [style.float]="posts.length ? 'right' :'unset'"
             routerLink="/addPost"
@@ -41,13 +41,13 @@
         </button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item
-                [disabled]="!userIsAuthenticated"
+                [disabled]="!userIsAuthenticated || !userIsFaculty"
                 [routerLink]="['/editPost', post.id]">
             <mat-icon color="primary">edit</mat-icon>
             <span>Edit</span>
           </button>
           <button mat-menu-item
-                [disabled]="!userIsAuthenticated"
+                [disabled]="!userIsAuthenticated || !userIsFaculty"
                 (click) = "deletePost(post.id)">
             <mat-icon color="warn">delete_outline</mat-icon>
             <span>Delete</span>
