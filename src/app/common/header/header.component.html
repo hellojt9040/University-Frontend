@@ -1,45 +1,58 @@
-<mat-toolbar color = "primary" class="d-flex justify-content-between mat-elevation-z6">
-  <div >
-    <span *ngIf="userIsAuthenticated" class="mx-2 pointer" >
-      <a mat-button routerLink="/posts" routerLinkActive="mat-accent">Posts</a>
-    </span>
-    <span *ngIf="userIsAuthenticated && userIsFaculty" class="mx-2 pointer">
-      <a mat-button routerLink="/addPost" routerLinkActive="mat-accent">Create Post</a>
-    </span>
-    <span *ngIf="userIsFaculty" class="mx-2 pointer">
-      <a mat-button routerLink="/resultUpload" routerLinkActive="mat-accent">Upload Result</a>
-    </span>
-    <span *ngIf="!userIsFaculty && userIsAuthenticated" class="mx-2 pointer">
-      <a mat-button routerLink="/viewResults" routerLinkActive="mat-accent">Results</a>
-    </span>
-    <span *ngIf="!userIsFaculty && userIsAuthenticated" class="mx-2 pointer">
-      <a mat-button routerLink="/myLocation" routerLinkActive="mat-accent">
-        <mat-icon aria-hidden="false" aria-label="Example home icon">room</mat-icon>
-      </a>
-    </span>
-    <!-- <span class="mx-2 pointer">
-      <a mat-button routerLink="/aboutUs" routerLinkActive="mat-accent">About Us</a>
-    </span> -->
+<div class="col-12 px-0 flex-wrap">
+  <mat-toolbar color = "primary" class="d-flex justify-content-between col-12 mat-elevation-z6 h-auto pt-2">
+    <div class="d-flex flex-wrap">
+      <span class="mx-2 pointer" >
+        <a mat-button routerLink="/">
+          <img src="../../../assets/images/helloJT.png"
+              class="head-logo"
+              alt="university logo">
+          <span class="app-title">
+            My University
+          </span>
+        </a>
+      </span>
+      <span *ngIf="userIsAuthenticated" class="mx-2 pointer" >
+        <a mat-button routerLink="/posts" routerLinkActive="mat-accent">Posts</a>
+      </span>
+      <span *ngIf="userIsAuthenticated && userIsFaculty" class="mx-2 pointer">
+        <a mat-button routerLink="/addPost" routerLinkActive="mat-accent">Create Post</a>
+      </span>
+      <span *ngIf="userIsFaculty" class="mx-2 pointer">
+        <a mat-button routerLink="/resultUpload" routerLinkActive="mat-accent">Upload Result</a>
+      </span>
+      <span *ngIf="!userIsFaculty && userIsAuthenticated" class="mx-2 pointer">
+        <a mat-button routerLink="/viewResults" routerLinkActive="mat-accent">Results</a>
+      </span>
+      <span *ngIf="!userIsFaculty && userIsAuthenticated" class="mx-2 pointer">
+        <a mat-button routerLink="/myLocation" routerLinkActive="mat-accent">
+          <mat-icon aria-hidden="false" aria-label="Example home icon">room</mat-icon>
+        </a>
+      </span>
+      <!-- <span class="mx-2 pointer">
+        <a mat-button routerLink="/aboutUs" routerLinkActive="mat-accent">About Us</a>
+      </span> -->
 
-  </div>
+    </div>
 
-  <div>
-    <span *ngIf="!userIsAuthenticated" class="mx-2 pointer">
-      <a mat-button routerLink="/login" routerLinkActive="mat-accent">LOGIN</a>
-    </span>
-    <span *ngIf="!userIsAuthenticated" class="mx-2 pointer">
-      <a mat-button routerLink="/signup" routerLinkActive="mat-accent">SIGNUP</a>
-    </span>
-    <span *ngIf="userIsAuthenticated" class="mx-2 pointer">
-      <button mat-button (click)="onLogout()">
-        LOGOUT
-      </button>
-    </span>
-    <span *ngIf="userIsAuthenticated"  class="mx-2 pointer">
-      <a mat-button routerLink="/profile" routerLinkActive="mat-accent">
-        <mat-icon aria-hidden="false" aria-label="Example home icon">person</mat-icon>
-      </a>
-    </span>
-  </div>
+    <div class="d-flex flex-wrap">
+      <span *ngIf="!userIsAuthenticated" class="mx-2 pointer">
+        <a mat-button routerLink="/login" routerLinkActive="mat-accent">LOGIN</a>
+      </span>
+      <span *ngIf="!userIsAuthenticated" class="mx-2 pointer">
+        <a mat-button routerLink="/signup" routerLinkActive="mat-accent">SIGNUP</a>
+      </span>
+      <span *ngIf="userIsAuthenticated" class="mx-2 pointer">
+        <button mat-button (click)="onLogout()">
+          LOGOUT
+        </button>
+      </span>
+      <span *ngIf="userIsAuthenticated"  class="mx-2 pointer">
+        <a mat-button routerLink="/profile" routerLinkActive="mat-accent">
+          <mat-icon aria-hidden="false" aria-label="Example home icon">person</mat-icon>
+        </a>
+      </span>
+    </div>
 
-</mat-toolbar>
+  </mat-toolbar>
+</div>
+

@@ -47,3 +47,14 @@ mat-card-header {
   text-align: center;
 }
 
+mat-card-title{
+  font-size: 14px;
+}
+
+mat-card-subtitle{
+  font-size: 10px;
+}
+
+mat-card-content{
+  margin-bottom: 8px;
+}
