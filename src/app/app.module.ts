@@ -33,6 +33,7 @@ import { ResetPasswordComponent } from './users/reset-password/reset-password.co
 import { ViewResultsComponent } from './users/view-results/view-results.component';
 import { MyLocationComponent } from './common/my-location/my-location.component';
 import { AgmCoreModule } from '@agm/core';
+import { TimeTableComponent } from './common/time-table/time-table.component';
 
 
 
@@ -55,6 +56,7 @@ import { AgmCoreModule } from '@agm/core';
     ResetPasswordComponent,
     ViewResultsComponent,
     MyLocationComponent,
+    TimeTableComponent,
 
 
 

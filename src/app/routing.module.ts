@@ -13,6 +13,7 @@ import { SignupComponent } from './common/auth/signup/signup.component';
 import { ResUploadComponent } from './users/res-upload/res-upload.component';
 import { AuthGuard } from './common/auth/auth.guard';
 import { ProfileComponent } from './users/profile/profile.component';
+import { TimeTableComponent } from './common/time-table/time-table.component';
 
 
 const routes: Routes = [
@@ -25,6 +26,7 @@ const routes: Routes = [
   {path: 'profile', pathMatch: 'full', component: ProfileComponent, canActivate:[AuthGuard]},
   {path: 'viewResults', pathMatch: 'full', component: ViewResultsComponent, canActivate:[AuthGuard]},
   {path: 'myLocation', pathMatch: 'full', component: MyLocationComponent, canActivate:[AuthGuard]},
+  {path: 'timeTable', pathMatch: 'full', component: TimeTableComponent, canActivate:[AuthGuard]},
   {path: 'login', pathMatch: 'full', component: LoginComponent},
   {path: 'signup', pathMatch: 'full', component: SignupComponent},
   {path: '**', component: NotFoundComponent},

@@ -24,6 +24,9 @@
         <a mat-button routerLink="/viewResults" routerLinkActive="mat-accent">Results</a>
       </span>
       <span *ngIf="!userIsFaculty && userIsAuthenticated" class="mx-2 pointer">
+        <a mat-button routerLink="/timeTable" routerLinkActive="mat-accent">Timetable</a>
+      </span>
+      <span *ngIf="!userIsFaculty && userIsAuthenticated" class="mx-2 pointer">
         <a mat-button routerLink="/myLocation" routerLinkActive="mat-accent">
           <mat-icon aria-hidden="false" aria-label="Example home icon">room</mat-icon>
         </a>

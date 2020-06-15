@@ -39,7 +39,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatRadioModule,
     MatTableModule,
     MatTabsModule,
-    
+
   ]
 })
 export class AngularMaterialModule { }
